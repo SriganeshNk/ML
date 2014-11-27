@@ -10,9 +10,9 @@ class Question3_Solver:
 	def get_cluster(self, points, centroids):
 		distance, cluster = [], []
 		for point in points:
-			distance.append(((point[0] - centroids[0][0])**2 + (point[1] - centroids[0][1])**2) ** 0.5)
-			distance.append(((point[0] - centroids[1][0])**2 + (point[1] - centroids[2][1])**2) ** 0.5)
-			distance.append(((point[0] - centroids[2][0])**2 + (point[1] - centroids[2][1])**2) ** 0.5)
+			distance.append(((centroids[0][0] - point[0])**2 + (centroids[0][1] - point[1])**2) ** 0.5)
+			distance.append(((centroids[1][0] - point[0])**2 + (centroids[1][1] - point[1])**2) ** 0.5)
+			distance.append(((centroids[2][0] - point[0])**2 + (centroids[2][1] - point[1])**2) ** 0.5)
 			cluster.append(distance.index(min(distance)))
 			distance = []
 		return cluster
@@ -30,10 +30,24 @@ class Question3_Solver:
 
 	def solve(self, points):
 		center = self.centroid	
+		same = False
 		while True:
 			cluster = self.get_cluster(points, self.centroid)
 			means = self.get_means(cluster, points)
-			if center[0] == self.centroid[0] and center[1] == self.centroid[1]:
+			if center[0][0] == self.centroid[0][0] and center[0][1] == self.centroid[0][1]:
+				same = True
+			else:
+				same = False
+			if center[1][0] == self.centroid[1][0] and center[1][1] == self.centroid[1][1]:
+				same = True
+			else:
+				same = False
+			if center[2][0] == self.centroid[2][0] and center[2][1] == self.centroid[2][1]:
+				same = True
+			else:
+				same = False
+			if same:
 				break
 			center = self.centroid
-		return self.centroid
+		#return [(48,47),(128,80),(48,103)]
+		return self.centroid 
